@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalDataStructure.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         //declaration
@@ -14,7 +14,7 @@ namespace DigitalDataStructure.Controllers
         private readonly IDataProtector _protector;
 
         public HomeController(IStudentService service, DataSecurityProvider dataKey, IDataProtectionProvider provider)
-       
+
         {
             _service = service;
             _protector = provider.CreateProtector(dataKey.dataKey);
@@ -36,29 +36,26 @@ namespace DigitalDataStructure.Controllers
             //var std = GetUserList();
 
             //to check the passed valued data correct or not
-           // return Json(std);
+            // return Json(std);
 
             var std = _service.GetStudents();
-            var s = std.Select(e => new Student { 
+            var s = std.Select(e => new Student
+            {
                 Id = e.Id,
                 Name = e.Name,
                 Address = e.Address,
                 encId = _protector.Protect(e.Id.ToString())
             }).ToList();
 
-            return View(std);
+            return View(s);
         }
 
         public IActionResult Details(string id)
         {
-           // return Json(name);
-           // var std = GetUserList().Where(x => x.Id == id).First();
-           // return Json(std);
-           int userid = Convert.ToInt32(_protector.Unprotect(id));
-            Student std = _service.GetStdById(useiId);
+            var userid = Convert.ToInt32(_protector.Unprotect(id));
 
-             
-
+            Student std = _service.GetStdById(userid);
+            //return Json(std);
             return View(std);
         }
     }

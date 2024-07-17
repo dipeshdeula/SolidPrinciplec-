@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 
+//security injection
 builder.Services.AddSingleton<DataSecurityProvider>();
 var app = builder.Build();
 

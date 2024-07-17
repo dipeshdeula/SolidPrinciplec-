@@ -22,7 +22,7 @@ namespace DigitalDataStructure.SolidPrinciple
 
         public void AddStudent(Student std)
         {
-            StudentList().Add(std);
+           /* StudentList().Add(std);*/
         }
 
         public Student GetStudentById(int id)
@@ -32,15 +32,15 @@ namespace DigitalDataStructure.SolidPrinciple
 
         public void UpdateStudent(Student std)
         {
-            var student = StudentList().Where(x => x.Id == std.Id).First();
+            /*var student = StudentList().Where(x => x.Id == std.Id).First();
             student.Name = std.Name;
-            student.Address = std.Address;
+            student.Address = std.Address;*/
         }
 
         public void DeleteStudent(int id)
         {
-            var student = StudentList().Where(x => x.Id == id).First();
-            StudentList().Remove(student);
+           /* var student = StudentList().Where(x => x.Id == id).First();
+            StudentList().Remove(student);*/
         }
     }
 }
