@@ -12,12 +12,14 @@ namespace DigitalDataStructure.Controllers
         //declaration
         private readonly IStudentService _service;
         private readonly IDataProtector _protector;
+        private readonly CrudDigitalAppContext _appContext;
 
-        public HomeController(IStudentService service, DataSecurityProvider dataKey, IDataProtectionProvider provider)
+        public HomeController(IStudentService service,CrudDigitalAppContext context, DataSecurityProvider dataKey, IDataProtectionProvider provider)
 
         {
             _service = service;
             _protector = provider.CreateProtector(dataKey.dataKey);
+            _appContext = context;
         }
         //function onward by repository
         /*public List<Student> GetUserList()
@@ -38,7 +40,7 @@ namespace DigitalDataStructure.Controllers
             //to check the passed valued data correct or not
             // return Json(std);
 
-            var std = _service.GetStudents();
+          /*  var std = _service.GetStudents();
             var s = std.Select(e => new Student
             {
                 Id = e.Id,
@@ -47,7 +49,13 @@ namespace DigitalDataStructure.Controllers
                 encId = _protector.Protect(e.Id.ToString())
             }).ToList();
 
+            return View(s);*/
+
+            //operating with database
+            var s = _service.GetStudents();
+            var u = s.Select(e => new User);
             return View(s);
+          //  return Json(s);
         }
 
         public IActionResult Details(string id)

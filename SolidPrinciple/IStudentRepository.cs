@@ -4,13 +4,13 @@ namespace DigitalDataStructure.SolidPrinciple
 {
     public interface IStudentRepository
     {
-        IEnumerable<Student> GetList();
+        IEnumerable<UserList> GetList();
 
-        Student GetStudentById(int id);
+        UserList GetStudentById(int id);
 
-        void AddStudent(Student std);
+        void AddStudent(UserList std);
 
-        void UpdateStudent(Student std);
+        void UpdateStudent(UserList std);
 
         void DeleteStudent(int id);
         

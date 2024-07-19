@@ -10,20 +10,20 @@ namespace DigitalDataStructure.SolidPrinciple
             _repo = repo;
         }
 
-        public IEnumerable<Student> GetStudents() => _repo.GetList();
+        public IEnumerable<UserList> GetStudents() => _repo.GetList();
 
 
-        public Student GetStdById(int id)
+        public UserList GetStdById(int id)
         { 
             return _repo.GetStudentById(id);
         }
        
-        public void AddStd(Student std)
+        public void AddStd(UserList std)
         {
             
         }
 
-        public void UpdateStd(Student std)
+        public void UpdateStd(UserList std)
         {
             
         }

@@ -1,8 +1,12 @@
+using DigitalDataStructure.Models;
 using DigitalDataStructure.Security;
 using DigitalDataStructure.SolidPrinciple;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
+
+//Database Injection
+builder.Services.AddDbContext<CrudDigitalAppContext>(options => options.UseSqlServer(builder.Configuration["Conn"]));
 
 //Dependency Injection
 builder.Services.AddScoped<IStudentService, StudentService>();
