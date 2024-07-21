@@ -1,6 +1,7 @@
 using DigitalDataStructure.Models;
 using DigitalDataStructure.Security;
 using DigitalDataStructure.SolidPrinciple;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();

@@ -52,19 +52,48 @@ namespace DigitalDataStructure.Controllers
             return View(s);*/
 
             //operating with database
-            var s = _service.GetStudents();
-            var u = s.Select(e => new User);
-            return View(s);
-          //  return Json(s);
+           var s = _service.GetStudents();
+            var u = s.Select(e => new UserListEdit
+            {
+                UserId = e.UserId,
+                UserName = e.UserName,
+                EmailAddress = e.EmailAddress,
+                UserAddress = e.UserAddress,
+                UserPassword = e.UserPassword,
+                UserProfile = e.UserProfile,
+                EncId = _protector.Protect(e.UserId.ToString()),
+                UserRole = e.UserRole
+            }).ToList();
+           return View(u);
+            //return Json(s);
         }
 
         public IActionResult Details(string id)
         {
             var userid = Convert.ToInt32(_protector.Unprotect(id));
 
-            Student std = _service.GetStdById(userid);
+            UserList std = _service.GetStdById(userid);
             //return Json(std);
             return View(std);
+        }
+
+        [HttpGet]
+        public IActionResult Create() {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(UserListEdit edit)
+        {
+            int maxid;
+            if (_service.TetStudents().Any()) {
+                maxid = _service.GetStudents().Max(x => x.UserId) + 1;
+            }
+            else
+            {
+
+            }
+           
         }
     }
 }
