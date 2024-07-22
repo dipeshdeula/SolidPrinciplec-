@@ -13,13 +13,16 @@ namespace DigitalDataStructure.Controllers
         private readonly IStudentService _service;
         private readonly IDataProtector _protector;
         private readonly CrudDigitalAppContext _appContext;
+        private IWebHostEnvironment _env;
 
-        public HomeController(IStudentService service,CrudDigitalAppContext context, DataSecurityProvider dataKey, IDataProtectionProvider provider)
+        public HomeController(IStudentService service,CrudDigitalAppContext context,
+            DataSecurityProvider dataKey, IDataProtectionProvider provider, IWebHostEnvironment env)
 
         {
             _service = service;
             _protector = provider.CreateProtector(dataKey.dataKey);
             _appContext = context;
+            _env = env;
         }
         //function onward by repository
         /*public List<Student> GetUserList()
@@ -81,19 +84,35 @@ namespace DigitalDataStructure.Controllers
         public IActionResult Create() {
             return View();
         }
-
         [HttpPost]
         public IActionResult Create(UserListEdit edit)
         {
             int maxid;
-            if (_service.TetStudents().Any()) {
+            if (_service.GetStudents().Any())
+            {
                 maxid = _service.GetStudents().Max(x => x.UserId) + 1;
             }
             else
             {
-
+                maxid = 1;
             }
-           
+            edit.UserId = maxid;
+
+            //upload file
+            if(edit.UserFile != null)
+            {
+                string filename = maxid.ToString()+ Guid.NewGuid()+ Path.GetExtension(edit.UserFile.FileName);
+                string filepath = Path.Combine(_env.WebRootPath, "UserProfile", filename);
+                using (FileStream str = new FileStream(filepath, FileMode.Create)) 
+                { 
+                    edit.UserFile.CopyTo(str);
+                
+                }
+                edit.UserProfile = filename;
+            }   
+
+            return View(edit); // Return the view after setting the UserId
         }
+
     }
 }
