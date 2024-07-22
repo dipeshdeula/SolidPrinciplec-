@@ -109,9 +109,32 @@ namespace DigitalDataStructure.Controllers
                 
                 }
                 edit.UserProfile = filename;
-            }   
+            }
+            //Mapping
+            UserList u = new()
+            {
+                UserId = edit.UserId,
+                EmailAddress = edit.EmailAddress,
+                UserAddress = edit.UserAddress,
+                UserName = edit.UserName,
+                UserPassword = edit.UserPassword,
+                UserProfile = edit.UserProfile,
+                UserStatus = true
 
-            return View(edit); // Return the view after setting the UserId
+            };
+            if (u != null)
+            {
+                _service.AddStd(u);
+                return Json("success");
+
+               // return View(edit); // Return the view after setting the UserId
+            }
+            else {
+                return Json("failed");
+                
+            }
+           
+
         }
 
     }

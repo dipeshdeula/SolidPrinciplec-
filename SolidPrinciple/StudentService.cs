@@ -20,6 +20,7 @@ namespace DigitalDataStructure.SolidPrinciple
        
         public void AddStd(UserList std)
         {
+            _repo.AddStudent(std);
             
         }
 

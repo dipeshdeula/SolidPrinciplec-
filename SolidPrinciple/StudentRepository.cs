@@ -31,7 +31,9 @@ namespace DigitalDataStructure.SolidPrinciple
 
         public void AddStudent(UserList user)
         {
-           /* StudentList().Add(std);*/
+            _appContext.Add(user);
+            _appContext.SaveChanges();
+           
         }
 
         public UserList GetStudentById(int id)
