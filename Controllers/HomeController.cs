@@ -119,23 +119,95 @@ namespace DigitalDataStructure.Controllers
                 UserName = edit.UserName,
                 UserPassword = edit.UserPassword,
                 UserProfile = edit.UserProfile,
+                UserRole = edit.UserRole,
                 UserStatus = true
 
             };
             if (u != null)
             {
                 _service.AddStd(u);
-                return Json("success");
+
+                //for using ajax
+                return Content("success");
+               // return Json("success");
 
                // return View(edit); // Return the view after setting the UserId
             }
             else {
-                return Json("failed");
+                return Content("failed");
                 
-            }
-           
+            } 
 
         }
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
+        }
+        public IActionResult Edit(string encId)
+        {
+            int id = Convert.ToInt32(_protector.Unprotect(encId));
+            var u = _appContext.UserLists.Where(x=> x.UserId == id).FirstOrDefault();
+
+            UserListEdit e = new()
+            {
+                UserId = u.UserId,
+                UserName = u.UserName,
+                UserPassword = u.UserPassword,
+                UserRole = u.UserRole,
+                UserProfile = u.UserProfile,
+                EmailAddress = u.EmailAddress,
+                UserAddress = u.UserAddress,
+                UserStatus = u.UserStatus
+            };
+            ViewData["psw"] = u.UserPassword;
+            return View(e);
+        }
+        [HttpPost]
+        public IActionResult Edit(UserListEdit edit)
+        {
+            if (edit.UserFile != null)
+            {
+                string filename = "UpdatedImage" + Guid.NewGuid() + Path.GetExtension(edit.UserFile.FileName);
+                string filePath = Path.Combine(_env.WebRootPath, "UserProfile", filename);
+                using (FileStream str = new FileStream(filePath, FileMode.Create))
+                {
+                    edit.UserFile.CopyTo(str);
+                }
+                edit.UserProfile = filename;
+            }
+            //Mapping
+            UserList u = new()
+            {
+                UserId = edit.UserId,
+                EmailAddress = edit.EmailAddress,
+                UserAddress = edit.UserAddress,
+                UserName = edit.UserName,
+                UserPassword = edit.UserPassword,
+                UserProfile = edit.UserProfile,
+                UserRole = edit.UserRole,
+                UserStatus = true
+            };
+
+            _service.UpdateStd(u);
+            return Json(edit);
+
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _service.DeleteStd(id);
+                return Content("success");
+            }
+            catch (Exception ex)
+            {
+                return Json(ex, "Failed");
+            }
+        }
+
 
     }
 }
