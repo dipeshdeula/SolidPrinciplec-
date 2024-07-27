@@ -15,7 +15,7 @@ namespace DigitalDataStructure.Controllers
         private readonly CrudDigitalAppContext _appContext;
         private IWebHostEnvironment _env;
 
-        public HomeController(IStudentService service,CrudDigitalAppContext context,
+        public HomeController(IStudentService service, CrudDigitalAppContext context,
             DataSecurityProvider dataKey, IDataProtectionProvider provider, IWebHostEnvironment env)
 
         {
@@ -43,19 +43,19 @@ namespace DigitalDataStructure.Controllers
             //to check the passed valued data correct or not
             // return Json(std);
 
-          /*  var std = _service.GetStudents();
-            var s = std.Select(e => new Student
-            {
-                Id = e.Id,
-                Name = e.Name,
-                Address = e.Address,
-                encId = _protector.Protect(e.Id.ToString())
-            }).ToList();
+            /*  var std = _service.GetStudents();
+              var s = std.Select(e => new Student
+              {
+                  Id = e.Id,
+                  Name = e.Name,
+                  Address = e.Address,
+                  encId = _protector.Protect(e.Id.ToString())
+              }).ToList();
 
-            return View(s);*/
+              return View(s);*/
 
             //operating with database
-           var s = _service.GetStudents();
+            var s = _service.GetStudents();
             var u = s.Select(e => new UserListEdit
             {
                 UserId = e.UserId,
@@ -67,7 +67,7 @@ namespace DigitalDataStructure.Controllers
                 EncId = _protector.Protect(e.UserId.ToString()),
                 UserRole = e.UserRole
             }).ToList();
-           return View(u);
+            return View(u);
             //return Json(s);
         }
 
@@ -76,12 +76,13 @@ namespace DigitalDataStructure.Controllers
             var userid = Convert.ToInt32(_protector.Unprotect(id));
 
             UserList std = _service.GetStdById(userid);
-            //return Json(std);
+            // return Json(std);
             return View(std);
         }
 
         [HttpGet]
-        public IActionResult Create() {
+        public IActionResult Create()
+        {
             return View();
         }
         [HttpPost]
@@ -99,14 +100,14 @@ namespace DigitalDataStructure.Controllers
             edit.UserId = maxid;
 
             //upload file
-            if(edit.UserFile != null)
+            if (edit.UserFile != null)
             {
-                string filename = maxid.ToString()+ Guid.NewGuid()+ Path.GetExtension(edit.UserFile.FileName);
+                string filename = maxid.ToString() + Guid.NewGuid() + Path.GetExtension(edit.UserFile.FileName);
                 string filepath = Path.Combine(_env.WebRootPath, "UserProfile", filename);
-                using (FileStream str = new FileStream(filepath, FileMode.Create)) 
-                { 
+                using (FileStream str = new FileStream(filepath, FileMode.Create))
+                {
                     edit.UserFile.CopyTo(str);
-                
+
                 }
                 edit.UserProfile = filename;
             }
@@ -129,25 +130,24 @@ namespace DigitalDataStructure.Controllers
 
                 //for using ajax
                 return Content("success");
-               // return Json("success");
+                // return Json("success");
 
-               // return View(edit); // Return the view after setting the UserId
+                // return View(edit); // Return the view after setting the UserId
             }
-            else {
+            else
+            {
                 return Content("failed");
-                
-            } 
+
+            }
 
         }
         [HttpGet]
-        public IActionResult Edit()
+  
+        public IActionResult Edit(string id)
         {
-            return View();
-        }
-        public IActionResult Edit(string encId)
-        {
-            int id = Convert.ToInt32(_protector.Unprotect(encId));
-            var u = _appContext.UserLists.Where(x=> x.UserId == id).FirstOrDefault();
+            int uid = Convert.ToInt32(_protector.Unprotect(id));
+            var u = _appContext.UserLists.Where(x => x.UserId == uid).FirstOrDefault();
+
 
             UserListEdit e = new()
             {

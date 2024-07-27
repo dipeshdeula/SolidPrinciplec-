@@ -44,9 +44,8 @@ namespace DigitalDataStructure.SolidPrinciple
 
         public void UpdateStudent(UserList user)
         {
-            /*var student = StudentList().Where(x => x.Id == std.Id).First();
-            student.Name = std.Name;
-            student.Address = std.Address;*/
+            _appContext.Update(user);
+            _appContext.SaveChanges();
         }
 
         public void DeleteStudent(int id)

@@ -43,16 +43,16 @@
   </div>
 </form>
 <script>
-    $(document).ready(function)(){
-    PostUserData = function (e) { 
-        if (e.responseText == "success") {
+    $(document).ready(function () {
+        PostUserData = function (e) {
+            if (e.responseText == "success") {
 
-            alert("Data save successfully!");
-            $('.text-empty').val('');
+                alert("Data save successfully!");
+                $('.text-empty').val('');
+            }
+            else {
+                alert("failed");
+            }
         }
-        else { 
-            alert("failed");
-        }
-    }
-    }
+    });
 </script>

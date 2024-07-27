@@ -24,8 +24,9 @@ namespace DigitalDataStructure.SolidPrinciple
             
         }
 
-        public void UpdateStd(UserList std)
+        public void UpdateStd(UserList s)
         {
+            _repo.UpdateStudent(s);
             
         }
 
